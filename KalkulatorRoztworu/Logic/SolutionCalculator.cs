@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace KalkulatorRoztworu.Logic;
 
 // Logika programu: nie wie nic o oknach i przyciskach, tylko liczy
@@ -47,5 +49,37 @@ public sealed class SolutionCalculator
         var pureSubstance = totalVolume * substancePercent / 100; // objętość czystej substancji
 
         return new CalculationResult(totalVolume, pureSubstance);
+    }
+
+    // Wersja dla GUI: dostaje tekst prosto z pól formularza, sama zamienia go na liczby
+    public CalculationResult Calculate(string capacityText, string percentText, string countText) =>
+        Calculate(
+            ParseDecimal(capacityText, "Pojemność naczynia"),
+            ParseDecimal(percentText, "Zawartość substancji"),
+            ParseCount(countText));
+
+    // Tekst -> liczba dziesiętna. Przyjmuje i przecinek, i kropkę: "2,5" oraz "2.5"
+    public static decimal ParseDecimal(string text, string fieldName)
+    {
+        var normalized = text.Trim().Replace(',', '.');
+
+        if (!decimal.TryParse(normalized, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,
+                CultureInfo.InvariantCulture, out var value))
+        {
+            throw new ArgumentException($"{fieldName}: wpisz liczbę, np. 50 albo 2,5.");
+        }
+
+        return value;
+    }
+
+    // Tekst -> liczba całkowita (liczba naczyń nie może być ułamkiem)
+    public static int ParseCount(string text)
+    {
+        if (!int.TryParse(text.Trim(), out var value))
+        {
+            throw new ArgumentException("Liczba naczyń musi być liczbą całkowitą.");
+        }
+
+        return value;
     }
 }
