@@ -3,6 +3,16 @@ namespace KalkulatorRoztworu.Logic;
 // Logika programu: nie wie nic o oknach i przyciskach, tylko liczy
 public sealed class SolutionCalculator
 {
+    // Logika zna typowe naczynia. GUI tylko pokazuje tę listę
+    public static IReadOnlyList<VesselPreset> TypicalVessels { get; } =
+    [
+        new("Kieliszek (50 ml)", 50),
+        new("Szklanka (250 ml)", 250),
+        new("Kubek (300 ml)", 300),
+        new("Kufel (500 ml)", 500),
+        new("Butelka (700 ml)", 700)
+    ];
+
     // Złe dane -> ArgumentException z komunikatem, który GUI pokaże użytkownikowi
     public CalculationResult Calculate(decimal capacityMl, decimal substancePercent, int vesselCount)
     {
