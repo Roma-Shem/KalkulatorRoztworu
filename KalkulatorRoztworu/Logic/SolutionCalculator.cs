@@ -13,6 +13,18 @@ public sealed class SolutionCalculator
         new("Butelka (700 ml)", 700)
     ];
 
+    // Logika zna typowe roztwory i ich procentową zawartość substancji
+    public static IReadOnlyList<SolutionPreset> TypicalSolutions { get; } =
+    [
+        new("Piwo (5%)", 5),
+        new("Wino (12%)", 12),
+        new("Wódka (40%)", 40),
+        new("Spirytus (96%)", 96),
+        new("Ocet spirytusowy (10%)", 10),
+        new("Woda utleniona (3%)", 3),
+        new("Płyn do dezynfekcji (70%)", 70)
+    ];
+
     // Złe dane -> ArgumentException z komunikatem, który GUI pokaże użytkownikowi
     public CalculationResult Calculate(decimal capacityMl, decimal substancePercent, int vesselCount)
     {
